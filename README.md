@@ -39,6 +39,20 @@ YouTube, TikTok, Twitch, site web…), et mise en avant des pépites du moment.
 
 ## Statut
 
-🟡 **Bientôt** — repo créé pour réserver la place dans la galaxie.
-L'annuaire pourra démarrer tôt (consultation publique sans compte),
-même avant la fin du chantier compte unique.
+🟠 **En développement** — la première version est en place :
+
+- Next.js 16 (App Router), 100 % statique pour l'instant.
+- Annuaire dans `data/medias.ts` (même philosophie que le site mère :
+  les fiches sont des données, jamais du HTML en dur).
+- Filtres par catégorie + recherche, fiches d'exemple marquées
+  `example: true` à remplacer par de vraies fiches vérifiées.
+- Barre galaxie commune (`public/ebok-galaxy.js`).
+- Bouton « Proposer un média » par e-mail, en attendant le formulaire
+  connecté au compte unique.
+
+### Lancer en local
+
+```bash
+npm install
+npm run dev
+```
