@@ -47,12 +47,31 @@ YouTube, TikTok, Twitch, site web…), et mise en avant des pépites du moment.
 - Filtres par catégorie + recherche, fiches d'exemple marquées
   `example: true` à remplacer par de vraies fiches vérifiées.
 - Barre galaxie commune (`public/ebok-galaxy.js`).
-- Bouton « Proposer un média » par e-mail, en attendant le formulaire
-  connecté au compte unique.
+- **Formulaire « Proposer un média »** (`/proposer`) : nom, catégorie,
+  présentation, liens, e-mail de contact — avec champ-piège anti-spam.
+- **Espace administrateur** (`/admin`) : liste des fiches en attente,
+  boutons Publier / Refuser. Les fiches publiées apparaissent dans
+  l'annuaire (au plus tard 5 minutes après validation).
+- Stockage dans la base **Neon** de la galaxie (schéma `medias`, créé
+  automatiquement au premier envoi). Sans base configurée, le site reste
+  statique et le formulaire propose un repli par e-mail.
+
+### Activer le formulaire et l'admin (2 variables d'environnement)
+
+Dans Vercel → projet EBOK-MEDIAS → Settings → Environment Variables :
+
+| Variable | Valeur |
+|---|---|
+| `DATABASE_URL` | La « Connection string » du projet Neon « ebok » (console Neon → Connect) |
+| `ADMIN_PASSWORD` | Le mot de passe de la page `/admin` (choisis-le long) |
+
+Puis redéployer. Le mot de passe admin est provisoire : il sera remplacé
+par le compte unique EBOK (Clerk) en Phase 3.
 
 ### Lancer en local
 
 ```bash
 npm install
+cp .env.example .env.local   # puis remplir les 2 variables
 npm run dev
 ```

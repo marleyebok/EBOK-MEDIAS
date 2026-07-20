@@ -131,5 +131,8 @@ export const MEDIAS: Media[] = [
   },
 ];
 
-/** Adresse pour proposer une fiche (alias medias@ après la Phase 0). */
-export const CONTACT_EMAIL = 'Ebok.basket@gmail.com';
+/**
+ * Adresse de contact temporaire (repli e-mail du formulaire).
+ * À remplacer par medias@ebok-basketball.com après la Phase 0.
+ */
+export const CONTACT_EMAIL = 'marley.ebok@gmail.com';

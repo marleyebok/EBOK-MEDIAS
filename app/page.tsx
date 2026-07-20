@@ -1,12 +1,20 @@
 import Directory from "@/components/Directory";
-import { CONTACT_EMAIL, MEDIAS } from "@/data/medias";
+import { MEDIAS, type Media } from "@/data/medias";
+import { approvedSubmissions } from "@/lib/db";
 
-const mailSubject = encodeURIComponent("EBOK Médias — proposer une fiche");
-const mailBody = encodeURIComponent(
-  "Bonjour,\n\nJe souhaite proposer une fiche pour l'annuaire EBOK Médias :\n\n— Nom du média / compte :\n— Catégorie (presse, podcast, joueur, coach, club, créateur) :\n— Présentation en une phrase :\n— Liens (site, Instagram, X, YouTube, TikTok, Twitch) :\n\nMerci !"
-);
+/** Les fiches validées par l'admin apparaissent au plus tard 5 min après. */
+export const revalidate = 300;
 
-export default function Home() {
+export default async function Home() {
+  const submitted: Media[] = (await approvedSubmissions()).map((sub) => ({
+    id: `sub-${sub.id}`,
+    name: sub.name,
+    category: sub.category,
+    description: sub.description,
+    links: sub.links,
+  }));
+  const medias = [...MEDIAS, ...submitted];
+
   return (
     <>
       <header className="site-header">
@@ -33,7 +41,7 @@ export default function Home() {
           </p>
         </section>
 
-        <Directory medias={MEDIAS} />
+        <Directory medias={medias} />
 
         <section className="propose" id="proposer">
           <h2>Vous êtes un média ?</h2>
@@ -42,10 +50,7 @@ export default function Home() {
             votre fiche et rejoignez l&apos;annuaire. C&apos;est gratuit — le but est de
             faire connaître tout ce que le basket francophone produit.
           </p>
-          <a
-            className="btn"
-            href={`mailto:${CONTACT_EMAIL}?subject=${mailSubject}&body=${mailBody}`}
-          >
+          <a className="btn" href="/proposer">
             Proposer un média
           </a>
         </section>
