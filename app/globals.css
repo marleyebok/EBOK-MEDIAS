@@ -507,3 +507,24 @@ body {
 .edit-form label {
   font-size: 13px;
 }
+
+.footer-admin {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.footer-admin a {
+  color: var(--muted);
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 14px;
+  display: inline-block;
+  transition: all 0.15s;
+}
+
+.footer-admin a:hover {
+  border-color: var(--gold);
+  color: var(--gold-dark);
+}

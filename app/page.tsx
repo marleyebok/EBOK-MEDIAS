@@ -62,6 +62,9 @@ export default async function Home() {
           EBOK Médias — un outil de la galaxie{" "}
           <a href="https://ebok-basketball.vercel.app">EBOK Basketball</a> · ©
           2026
+          <p className="footer-admin">
+            <a href="/admin">🔑 Connexion espace admin</a>
+          </p>
         </div>
       </footer>
     </>
