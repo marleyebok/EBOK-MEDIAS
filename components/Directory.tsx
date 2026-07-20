@@ -72,7 +72,13 @@ export default function Directory({ medias }: { medias: Media[] }) {
               </span>
               {m.example && <span className="example-tag">exemple</span>}
             </div>
-            <h3>{m.name}</h3>
+            <div className="card-id">
+              {m.imageUrl && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="card-logo" src={m.imageUrl} alt="" loading="lazy" />
+              )}
+              <h3>{m.name}</h3>
+            </div>
             <p>{m.description}</p>
             <div className="links">
               {Object.entries(m.links).map(([kind, url]) =>

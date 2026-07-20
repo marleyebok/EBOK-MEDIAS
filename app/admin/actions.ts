@@ -2,7 +2,9 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { decideSubmission } from "@/lib/db";
+import { CATEGORIES, type CategoryKey } from "@/data/medias";
+import { decideSubmission, updateSubmission } from "@/lib/db";
+import { cleanUrl, parseLinks } from "@/lib/parse";
 import {
   checkPassword,
   endAdminSession,
@@ -28,7 +30,30 @@ export async function decide(formData: FormData): Promise<void> {
   const decision = String(formData.get("decision"));
   if (Number.isInteger(id) && (decision === "approved" || decision === "rejected")) {
     await decideSubmission(id, decision);
-    // La fiche approuvée doit apparaître dans l'annuaire sans attendre.
+    // La décision doit se refléter dans l'annuaire sans attendre.
+    revalidatePath("/");
+  }
+  redirect("/admin");
+}
+
+export async function edit(formData: FormData): Promise<void> {
+  if (!(await isAdmin())) redirect("/admin");
+
+  const id = Number(formData.get("id"));
+  const name = String(formData.get("name") ?? "").trim().slice(0, 80);
+  const category = String(formData.get("category") ?? "") as CategoryKey;
+  const description = String(formData.get("description") ?? "").trim().slice(0, 400);
+  const links = parseLinks(formData);
+  const imageUrl = cleanUrl(formData.get("image_url")) ?? null;
+
+  if (
+    Number.isInteger(id) &&
+    name &&
+    description &&
+    category in CATEGORIES &&
+    Object.keys(links).length > 0
+  ) {
+    await updateSubmission(id, { name, category, description, links, imageUrl });
     revalidatePath("/");
   }
   redirect("/admin");

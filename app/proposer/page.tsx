@@ -113,6 +113,11 @@ export default async function ProposerPage({
             </fieldset>
 
             <label>
+              Logo ou photo (optionnel, image de 2 Mo max)
+              <input name="image" type="file" accept="image/*" />
+            </label>
+
+            <label>
               Votre e-mail (pour vous répondre, jamais publié)
               <input name="email" type="email" maxLength={120} placeholder="vous@exemple.fr" />
             </label>

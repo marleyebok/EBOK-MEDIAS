@@ -48,10 +48,12 @@ YouTube, TikTok, Twitch, site web…), et mise en avant des pépites du moment.
   `example: true` à remplacer par de vraies fiches vérifiées.
 - Barre galaxie commune (`public/ebok-galaxy.js`).
 - **Formulaire « Proposer un média »** (`/proposer`) : nom, catégorie,
-  présentation, liens, e-mail de contact — avec champ-piège anti-spam.
-- **Espace administrateur** (`/admin`) : liste des fiches en attente,
-  boutons Publier / Refuser. Les fiches publiées apparaissent dans
-  l'annuaire (au plus tard 5 minutes après validation).
+  présentation, liens, logo/photo (2 Mo max), e-mail de contact — avec
+  champ-piège anti-spam.
+- **Espace administrateur** (`/admin`) : fiches en attente avec boutons
+  Publier / Refuser, **modification** de toute fiche (nom, catégorie,
+  texte, liens, image) et retrait d'une fiche déjà publiée. Les
+  changements apparaissent dans l'annuaire au plus tard 5 minutes après.
 - Stockage dans la base **Neon** de la galaxie (schéma `medias`, créé
   automatiquement au premier envoi). Sans base configurée, le site reste
   statique et le formulaire propose un repli par e-mail.
@@ -67,6 +69,13 @@ Dans Vercel → projet EBOK-MEDIAS → Settings → Environment Variables :
 
 Puis redéployer. Le mot de passe admin est provisoire : il sera remplacé
 par le compte unique EBOK (Clerk) en Phase 3.
+
+### Activer l'upload d'images (optionnel)
+
+Vercel → projet EBOK-MEDIAS → onglet **Storage** → **Create Database →
+Blob** → connecter au projet. Vercel injecte tout seul la variable
+`BLOB_READ_WRITE_TOKEN`. Sans Blob store, le formulaire fonctionne
+quand même : l'image est simplement ignorée.
 
 ### Lancer en local
 

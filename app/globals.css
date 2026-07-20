@@ -469,3 +469,41 @@ body {
   display: flex;
   gap: 10px;
 }
+
+/* ---- Images des cartes & édition admin ---- */
+.card-id {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-logo {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  flex: none;
+}
+
+.admin-wrap {
+  max-width: 860px;
+}
+
+.edit-details summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold-dark);
+  padding: 4px 0;
+}
+
+.edit-form {
+  margin: 10px 0 0;
+  padding: 16px;
+  gap: 10px;
+}
+
+.edit-form label {
+  font-size: 13px;
+}

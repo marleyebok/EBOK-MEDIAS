@@ -56,6 +56,8 @@ export interface Media {
   description: string;
   /** Liens officiels — TOUJOURS vérifiés à la main avant publication. */
   links: MediaLinks;
+  /** Logo ou photo de la fiche (URL absolue, optionnel). */
+  imageUrl?: string;
   /** Fiche d'exemple à remplacer par le responsable médias. */
   example?: boolean;
 }

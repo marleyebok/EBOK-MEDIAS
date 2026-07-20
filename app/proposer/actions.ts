@@ -1,23 +1,10 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { CATEGORIES, type CategoryKey, type MediaLinks } from "@/data/medias";
+import { CATEGORIES, type CategoryKey } from "@/data/medias";
 import { hasDb, insertSubmission } from "@/lib/db";
-
-const LINK_KEYS = ["site", "instagram", "x", "youtube", "tiktok", "twitch"] as const;
-
-function cleanUrl(raw: FormDataEntryValue | null): string | undefined {
-  const v = String(raw ?? "").trim();
-  if (!v) return undefined;
-  const url = /^https?:\/\//i.test(v) ? v : `https://${v}`;
-  try {
-    const parsed = new URL(url);
-    if (parsed.protocol !== "https:" && parsed.protocol !== "http:") return undefined;
-    return parsed.toString().slice(0, 300);
-  } catch {
-    return undefined;
-  }
-}
+import { parseLinks } from "@/lib/parse";
+import { uploadImage } from "@/lib/images";
 
 export async function submitProposal(formData: FormData): Promise<void> {
   // Champ-piège anti-spam : rempli uniquement par les robots.
@@ -35,13 +22,13 @@ export async function submitProposal(formData: FormData): Promise<void> {
     redirect("/proposer?erreur=champs");
   }
 
-  const links: MediaLinks = {};
-  for (const key of LINK_KEYS) {
-    const url = cleanUrl(formData.get(key));
-    if (url) links[key] = url;
-  }
+  const links = parseLinks(formData);
   if (Object.keys(links).length === 0) redirect("/proposer?erreur=liens");
 
-  await insertSubmission({ name, category, description, contactEmail, links });
+  // Logo/photo optionnel : ignoré si trop lourd, non-image ou stockage absent.
+  const image = formData.get("image");
+  const imageUrl = await uploadImage(image instanceof File ? image : null);
+
+  await insertSubmission({ name, category, description, contactEmail, links, imageUrl });
   redirect("/proposer/merci");
 }

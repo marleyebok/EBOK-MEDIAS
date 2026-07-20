@@ -12,6 +12,7 @@ export default async function Home() {
     category: sub.category,
     description: sub.description,
     links: sub.links,
+    imageUrl: sub.image_url ?? undefined,
   }));
   const medias = [...MEDIAS, ...submitted];
 

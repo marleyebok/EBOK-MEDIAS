@@ -24,6 +24,7 @@ export interface Submission {
   description: string;
   contact_email: string | null;
   links: MediaLinks;
+  image_url: string | null;
   status: "pending" | "approved" | "rejected";
   created_at: string;
 }
@@ -47,6 +48,7 @@ async function ensureSchema(): Promise<void> {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
       decided_at TIMESTAMPTZ
     )`;
+  await q`ALTER TABLE medias.submissions ADD COLUMN IF NOT EXISTS image_url TEXT`;
   schemaReady = true;
 }
 
@@ -56,12 +58,33 @@ export async function insertSubmission(input: {
   description: string;
   contactEmail: string | null;
   links: MediaLinks;
+  imageUrl: string | null;
 }): Promise<void> {
   await ensureSchema();
   await sql()`
-    INSERT INTO medias.submissions (name, category, description, contact_email, links)
+    INSERT INTO medias.submissions (name, category, description, contact_email, links, image_url)
     VALUES (${input.name}, ${input.category}, ${input.description},
-            ${input.contactEmail}, ${JSON.stringify(input.links)}::jsonb)`;
+            ${input.contactEmail}, ${JSON.stringify(input.links)}::jsonb, ${input.imageUrl})`;
+}
+
+export async function updateSubmission(
+  id: number,
+  fields: {
+    name: string;
+    category: CategoryKey;
+    description: string;
+    links: MediaLinks;
+    imageUrl: string | null;
+  }
+): Promise<void> {
+  await ensureSchema();
+  await sql()`
+    UPDATE medias.submissions
+    SET name = ${fields.name}, category = ${fields.category},
+        description = ${fields.description},
+        links = ${JSON.stringify(fields.links)}::jsonb,
+        image_url = ${fields.imageUrl}
+    WHERE id = ${id}`;
 }
 
 export async function listSubmissions(
@@ -69,8 +92,8 @@ export async function listSubmissions(
 ): Promise<Submission[]> {
   await ensureSchema();
   const rows = await sql()`
-    SELECT id, name, category, description, contact_email, links, status,
-           created_at::text AS created_at
+    SELECT id, name, category, description, contact_email, links, image_url,
+           status, created_at::text AS created_at
     FROM medias.submissions
     WHERE status = ${status}
     ORDER BY created_at DESC
