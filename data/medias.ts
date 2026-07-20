@@ -96,40 +96,47 @@ export const MEDIAS: Media[] = [
     links: { site: 'https://www.basketeurope.com' },
   },
   {
-    id: 'exemple-podcast',
-    name: 'Ton podcast ici',
-    category: 'podcast',
+    id: 'basketusa',
+    name: 'BasketUSA',
+    category: 'presse',
     description:
-      'Fiche d’exemple : un podcast basket francophone — remplace-la par une vraie fiche (liens vérifiés) via « Proposer un média ».',
-    links: { site: 'https://ebok-basketball.vercel.app' },
-    example: true,
+      "Toute l'actualité de la NBA en français : matchs, transferts, analyses et histoire de la grande ligue.",
+    links: { site: 'https://www.basketusa.com' },
   },
   {
-    id: 'exemple-joueur',
-    name: 'Ton compte de joueur·se ici',
-    category: 'joueur',
+    id: 'trashtalk',
+    name: 'TrashTalk',
+    category: 'presse',
     description:
-      'Fiche d’exemple : un joueur ou une joueuse qui partage son quotidien, du départemental au pro.',
-    links: { site: 'https://ebok-basketball.vercel.app' },
-    example: true,
+      'Le média NBA français au ton décalé : actu quotidienne, émissions, podcasts et une communauté énorme.',
+    links: { site: 'https://trashtalk.co' },
   },
   {
-    id: 'exemple-coach',
-    name: 'Ton contenu de coach ici',
-    category: 'coach',
-    description:
-      'Fiche d’exemple : un coach ou formateur qui publie exercices, analyses et pédagogie.',
-    links: { site: 'https://ebok-basketball.vercel.app' },
-    example: true,
-  },
-  {
-    id: 'exemple-createur',
-    name: 'Ta chaîne ici',
+    id: 'firstteam',
+    name: 'First Team',
     category: 'createur',
     description:
-      'Fiche d’exemple : highlights, mixtapes, photo ou vidéo — les créateurs qui font vibrer le basket francophone.',
-    links: { site: 'https://ebok-basketball.vercel.app' },
-    example: true,
+      'Le média vidéo du basket français : émissions, débats et formats originaux autour de la balle orange.',
+    // TODO(Marley) : vérifier/compléter les liens officiels (YouTube, réseaux).
+    links: { youtube: 'https://www.youtube.com/@FirstTeam' },
+  },
+  {
+    id: 'processcorp',
+    name: 'Process Corp',
+    category: 'createur',
+    description:
+      'Analyses et contenus pour comprendre le jeu en profondeur, côté tactique et développement du joueur.',
+    // TODO(Marley) : vérifier/compléter les liens officiels.
+    links: { youtube: 'https://www.youtube.com/@ProcessCorp' },
+  },
+  {
+    id: 'ffbb-formation',
+    name: 'FFBB Formation',
+    category: 'coach',
+    description:
+      'La formation officielle de la Fédération : diplômes, ressources pédagogiques et contenus pour entraîneurs.',
+    // TODO(Marley) : affiner vers la page/chaîne Formation exacte de la FFBB.
+    links: { site: 'https://www.ffbb.com' },
   },
 ];
 
