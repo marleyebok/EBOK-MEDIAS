@@ -1,7 +1,6 @@
 # EBOK Médias 📣🏀
 
 > **L'annuaire des médias du basket francophone.**
-> Repo réservé — le développement n'a pas encore commencé.
 
 ## Le futur contenu
 
@@ -19,7 +18,7 @@ avec les liens vers tous leurs réseaux sociaux.
 Chaque fiche : nom, catégorie, courte présentation, liens (Instagram, X,
 YouTube, TikTok, Twitch, site web…), et mise en avant des pépites du moment.
 
-## Fonctionnement prévu
+## Fonctionnement
 
 - Consultation **publique, sans compte** : l'annuaire doit se partager
   facilement.
@@ -27,14 +26,13 @@ YouTube, TikTok, Twitch, site web…), et mise en avant des pépites du moment.
   (compte unique EBOK — « 1 compte, 10 outils »), validation avant publication.
 - Filtres par catégorie, niveau, région, réseau social.
 
-## Stack prévue (standard de la galaxie)
+## Stack (standard de la galaxie)
 
-- **Next.js** (App Router) déployé sur **Vercel** — sous-domaine
-  `medias.ebok-basketball.com`
-- **Clerk** pour les propositions de fiches (voir `docs/AUTH.md` du repo
-  [EBOK-BASKETBALL](https://github.com/marleyebok/EBOK-BASKETBALL))
-- **Neon Postgres**, schéma `medias` + référence à la table partagée
-  `shared.users`
+- **Next.js** (App Router) déployé sur **Vercel** — sous-domaine `medias.ebok.fr`
+- **Clerk** (compte unique de la galaxie EBOK, instance `clerk.ebok.fr`) :
+  identité pour proposer une fiche et pour l'administration (voir
+  `docs/AUTH.md` du repo [EBOK-BASKETBALL](https://github.com/marleyebok/EBOK-BASKETBALL))
+- **Neon Postgres**, schéma `medias`
 - Barre commune `ebok-galaxy.js` en haut de page, comme sur toutes les apps
 
 ## Statut
@@ -47,28 +45,33 @@ YouTube, TikTok, Twitch, site web…), et mise en avant des pépites du moment.
 - Filtres par catégorie + recherche, fiches d'exemple marquées
   `example: true` à remplacer par de vraies fiches vérifiées.
 - Barre galaxie commune (`public/ebok-galaxy.js`).
-- **Formulaire « Proposer un média »** (`/proposer`) : nom, catégorie,
-  présentation, liens, logo/photo (2 Mo max), e-mail de contact — avec
-  champ-piège anti-spam.
-- **Espace administrateur** (`/admin`) : fiches en attente avec boutons
-  Publier / Refuser, **modification** de toute fiche (nom, catégorie,
-  texte, liens, image) et retrait d'une fiche déjà publiée. Les
-  changements apparaissent dans l'annuaire au plus tard 5 minutes après.
+- **Formulaire « Proposer un média »** (`/proposer`) : réservé aux membres
+  connectés (compte EBOK via Clerk) — nom, catégorie, présentation, liens,
+  logo/photo (2 Mo max), e-mail de contact — avec champ-piège anti-spam.
+- **Espace administrateur** (`/admin`) : réservé aux comptes EBOK dont
+  l'e-mail figure dans l'allowlist admin (voir `lib/admin.ts`). Fiches en
+  attente avec boutons Publier / Refuser, **modification** de toute fiche
+  (nom, catégorie, texte, liens, image) et retrait d'une fiche déjà publiée.
+  Les changements apparaissent dans l'annuaire au plus tard 5 minutes après.
 - Stockage dans la base **Neon** de la galaxie (schéma `medias`, créé
   automatiquement au premier envoi). Sans base configurée, le site reste
   statique et le formulaire propose un repli par e-mail.
 
-### Activer le formulaire et l'admin (2 variables d'environnement)
+### Activer le formulaire et l'admin
 
 Dans Vercel → projet EBOK-MEDIAS → Settings → Environment Variables :
 
 | Variable | Valeur |
 |---|---|
 | `DATABASE_URL` | La « Connection string » du projet Neon « ebok » (console Neon → Connect) |
-| `ADMIN_PASSWORD` | Le mot de passe de la page `/admin` (choisis-le long) |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | `pk_live_…` — publique, même clé pour toute la galaxie |
+| `CLERK_SECRET_KEY` | `sk_live_…` — clé serveur Clerk, la même que la galaxie |
+| `ADMIN_EMAILS` | *(optionnel)* e-mails admin additionnels, séparés par des virgules |
 
-Puis redéployer. Le mot de passe admin est provisoire : il sera remplacé
-par le compte unique EBOK (Clerk) en Phase 3.
+Côté **Clerk** : ajouter `medias` aux *allowed subdomains* (comme `event`).
+L'admin par défaut est `marley.ebok@gmail.com` (voir `lib/admin.ts`).
+
+Puis redéployer.
 
 ### Activer l'upload d'images (optionnel)
 
@@ -81,6 +84,6 @@ quand même : l'image est simplement ignorée.
 
 ```bash
 npm install
-cp .env.example .env.local   # puis remplir les 2 variables
+cp .env.example .env.local   # puis remplir les variables
 npm run dev
 ```

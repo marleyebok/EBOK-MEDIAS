@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { UserButton } from "@clerk/nextjs";
 import { CATEGORIES, CONTACT_EMAIL, type CategoryKey } from "@/data/medias";
 import { hasDb } from "@/lib/db";
 import { submitProposal } from "./actions";
@@ -27,13 +28,14 @@ export default async function ProposerPage({
   return (
     <>
       <header className="site-header">
-        <div className="wrap">
+        <div className="wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <a className="brand" href="/">
             <span className="brand-name">
               EBOK <em>MÉDIAS</em>
             </span>
             <span className="brand-tag">l&apos;annuaire du basket francophone</span>
           </a>
+          <UserButton />
         </div>
       </header>
 
@@ -161,7 +163,7 @@ export default async function ProposerPage({
       <footer className="site-footer">
         <div className="wrap">
           EBOK Médias — un outil de la galaxie{" "}
-          <a href="https://ebok-basketball.vercel.app">EBOK Basketball</a> · © 2026
+          <a href="https://ebok.fr">EBOK Basketball</a> · © 2026
           <p className="footer-admin">
             <a href="/admin">🔑 Connexion espace admin</a>
           </p>
