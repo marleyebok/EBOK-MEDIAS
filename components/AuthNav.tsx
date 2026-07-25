@@ -30,12 +30,15 @@ export default function AuthNav() {
   if (!isSignedIn) {
     return (
       <nav className="auth-nav">
-        <SignInButton mode="modal">
+        {/* Popup plutôt que redirection plein écran pour les providers OAuth
+            (Google…) : la session est déjà active côté client au moment où
+            Clerk applique la redirection post-connexion. */}
+        <SignInButton mode="modal" oauthFlow="popup">
           <button className="auth-link" type="button">
             Se connecter
           </button>
         </SignInButton>
-        <SignUpButton mode="modal" forceRedirectUrl={SIGNUP_REDIRECT}>
+        <SignUpButton mode="modal" forceRedirectUrl={SIGNUP_REDIRECT} oauthFlow="popup">
           <button className="auth-cta" type="button">
             Créer un compte
           </button>
