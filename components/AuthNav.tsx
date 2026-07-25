@@ -16,6 +16,11 @@ import Link from "next/link";
  */
 const ADMIN_EMAILS = ["marley.ebok@gmail.com"];
 
+// Après inscription (jamais connexion) : questionnaire de bienvenue centralisé
+// sur ebok.fr (une seule fois par compte), qui revient ensuite ici.
+const ONBOARDING_RETURN_TO = "https://medias.ebok.fr/proposer";
+const SIGNUP_REDIRECT = `https://ebok.fr/onboarding?return_to=${encodeURIComponent(ONBOARDING_RETURN_TO)}`;
+
 export default function AuthNav() {
   const { isLoaded, isSignedIn, user } = useUser();
 
@@ -30,7 +35,7 @@ export default function AuthNav() {
             Se connecter
           </button>
         </SignInButton>
-        <SignUpButton mode="modal">
+        <SignUpButton mode="modal" forceRedirectUrl={SIGNUP_REDIRECT}>
           <button className="auth-cta" type="button">
             Créer un compte
           </button>
