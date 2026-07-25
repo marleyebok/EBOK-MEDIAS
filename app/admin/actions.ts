@@ -5,24 +5,7 @@ import { revalidatePath } from "next/cache";
 import { CATEGORIES, type CategoryKey } from "@/data/medias";
 import { decideSubmission, updateSubmission } from "@/lib/db";
 import { cleanUrl, parseLinks } from "@/lib/parse";
-import {
-  checkPassword,
-  endAdminSession,
-  isAdmin,
-  startAdminSession,
-} from "@/lib/admin-session";
-
-export async function login(formData: FormData): Promise<void> {
-  const password = String(formData.get("password") ?? "");
-  if (!checkPassword(password)) redirect("/admin?erreur=mdp");
-  await startAdminSession();
-  redirect("/admin");
-}
-
-export async function logout(): Promise<void> {
-  await endAdminSession();
-  redirect("/admin");
-}
+import { isAdmin } from "@/lib/admin";
 
 export async function decide(formData: FormData): Promise<void> {
   if (!(await isAdmin())) redirect("/admin");

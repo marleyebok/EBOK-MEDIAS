@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { UserButton } from "@clerk/nextjs";
 import { CATEGORIES, type CategoryKey } from "@/data/medias";
 import { hasDb, listSubmissions, type Submission } from "@/lib/db";
 import { LINK_KEYS } from "@/lib/parse";
-import { adminConfigured, isAdmin } from "@/lib/admin-session";
-import { decide, edit, login, logout } from "./actions";
+import { isAdmin } from "@/lib/admin";
+import { decide, edit } from "./actions";
 
 export const metadata: Metadata = {
   title: "Administration — EBOK Médias",
@@ -123,12 +124,7 @@ function SubmissionCard({ sub }: { sub: Submission }) {
   );
 }
 
-export default async function AdminPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ erreur?: string }>;
-}) {
-  const { erreur } = await searchParams;
+export default async function AdminPage() {
   const authed = await isAdmin();
 
   let pending: Submission[] = [];
@@ -154,22 +150,14 @@ export default async function AdminPage({
         </h1>
       </section>
 
-      {!adminConfigured() ? (
-        <p className="form-error">
-          L&apos;administration n&apos;est pas encore activée : ajoutez la variable
-          d&apos;environnement <code>ADMIN_PASSWORD</code> (voir README).
-        </p>
-      ) : !authed ? (
-        <form className="proposal-form login-form" action={login}>
-          {erreur === "mdp" && <p className="form-error">Mot de passe incorrect.</p>}
-          <label>
-            Mot de passe administrateur
-            <input name="password" type="password" required autoFocus />
-          </label>
-          <button className="submit-btn" type="submit">
-            Se connecter
-          </button>
-        </form>
+      {!authed ? (
+        <div className="proposal-form login-form">
+          <p className="form-error">
+            Ce compte EBOK n&apos;est pas autorisé à administrer l&apos;annuaire.
+            Connectez-vous avec un compte administrateur.
+          </p>
+          <UserButton />
+        </div>
       ) : (
         <>
           <div className="admin-bar">
@@ -178,11 +166,7 @@ export default async function AdminPage({
               attente · <strong>{approved.length}</strong> publiée
               {approved.length > 1 ? "s" : ""} via le formulaire
             </p>
-            <form action={logout}>
-              <button className="reject-btn" type="submit">
-                Se déconnecter
-              </button>
-            </form>
+            <UserButton />
           </div>
 
           {!hasDb() && (
