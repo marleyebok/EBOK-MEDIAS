@@ -1,4 +1,5 @@
 import Directory from "@/components/Directory";
+import AuthNav from "@/components/AuthNav";
 import { MEDIAS, type Media } from "@/data/medias";
 import { approvedSubmissions } from "@/lib/db";
 
@@ -26,6 +27,7 @@ export default async function Home() {
             </span>
             <span className="brand-tag">l&apos;annuaire du basket francophone</span>
           </a>
+          <AuthNav />
         </div>
       </header>
 

@@ -37,6 +37,50 @@ body {
   padding: 18px 0;
 }
 
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.auth-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.auth-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 6px 4px;
+}
+.auth-link:hover {
+  color: var(--gold-dark);
+}
+.auth-cta {
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  color: #1c1b18;
+  background: var(--gold);
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+}
+.auth-cta:hover {
+  background: var(--gold-dark);
+}
+.auth-admin {
+  color: var(--gold-dark);
+  font-weight: 700;
+}
+
 .brand {
   display: flex;
   align-items: baseline;
